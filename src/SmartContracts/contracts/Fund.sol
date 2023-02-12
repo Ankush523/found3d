@@ -3,11 +3,12 @@ pragma solidity ^0.8.14;
 
 import {ISuperfluid, ISuperToken, ISuperApp} from "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperfluid.sol";
 
-import {SuperTokenV1Library} from "@superfluid-finance/ethereum-contracts/contracts/apps/SuperTokenV1Library.sol";
+import { SuperTokenV1Library } from "@superfluid-finance/ethereum-contracts/contracts/apps/SuperTokenV1Library.sol";
 
 error Unauthorized();
 
 contract Fund {
+
     address public owner;
     uint256 public currentAmount;
     using SuperTokenV1Library for ISuperToken;
@@ -17,21 +18,21 @@ contract Fund {
     // fDAIx:0xF2d68898557cCb2Cf4C10c3Ef2B034b2a69DAD00
     // fDAI :0x88271d333C72e51516B67f5567c728E702b3eeE8
 
-    uint256 proj_id;
+    uint public proj_id;
 
-    struct Project {
-        uint256 proj_id;
+    struct Project{
+        uint proj_id;
         string proj_name;
         string proj_desc;
         address developer;
+        uint256 time;
         uint256 goalAmount;
-        uint256 currentAmount;
     }
 
-    mapping(uint256 => Project) public project;
+    mapping(uint => Project) public project;
     mapping(address => bool) public accountList;
 
-    constructor(ISuperToken _fundtoken, address _owner) {
+    constructor(ISuperToken _fundtoken,address _owner) {
         owner = _owner;
         fundtoken = _fundtoken;
     }
@@ -41,62 +42,45 @@ contract Fund {
         accountList[_account] = true;
     }
 
-    function createFlowFromContract(address receiver, int96 flowRate) public {
-        if (!accountList[msg.sender] && msg.sender != owner)
-            revert Unauthorized();
+    function createFlowFromContract(address receiver,int96 flowRate) public {
+        if (!accountList[msg.sender] && msg.sender != owner) revert Unauthorized();
         fundtoken.createFlow(receiver, flowRate);
     }
 
-    function updateFlowFromContract(address receiver, int96 flowRate) internal {
-        if (!accountList[msg.sender] && msg.sender != owner)
-            revert Unauthorized();
+    function updateFlowFromContract(address receiver,int96 flowRate) internal {
+        if (!accountList[msg.sender] && msg.sender != owner) revert Unauthorized();
         fundtoken.updateFlow(receiver, flowRate);
     }
 
     function deleteFlowFromContract(address receiver) external {
-        if (!accountList[msg.sender] && msg.sender != owner)
-            revert Unauthorized();
-
+        if (!accountList[msg.sender] && msg.sender != owner) revert Unauthorized();
         fundtoken.deleteFlow(address(this), receiver);
     }
 
-    // function balance(address _owner) public view returns (uint256) {
-    //     return fundtoken.balanceOf(0x93B0fDbfAB9985A33278ffcbBFA1cd076fE295Bb);
-    // }
-
     function add(uint256 _proj_id) public view returns (address) {
         return project[_proj_id].developer;
-    }
-
-    function projectregister(
-        string memory _projname,
-        string memory _projdesc,
-        uint256 _goalAmount
-    ) external {
+    } 
+    function projectregister(string memory _projname, string memory _projdesc,uint256 _time, uint256 _goalAmount) external{
         ++proj_id;
-        project[proj_id] = Project(
-            proj_id,
-            _projname,
-            _projdesc,
-            msg.sender,
-            _goalAmount,
-            0
-        );
+        project[proj_id] = Project(proj_id,_projname,_projdesc,msg.sender,_time,_goalAmount);
     }
 
-    function projectlist(uint256 _proj_id)
-        public
-        view
-        returns (Project memory)
+    function projectlist(uint _proj_id) public view returns (Project memory)
     {
         return project[_proj_id];
     }
 
+    function ratevalue(uint256 _proj_id) public view returns (uint256) {
+        uint256 time_in_seconds = ((project[_proj_id].time)*30*24*3600);
+        uint256 rate = uint256((project[_proj_id].goalAmount) / time_in_seconds);  
+        return rate;
+    } 
+
     function funding(uint256 _proj_id) external {
-        // require (project[_proj_id].currentAmount <= project[_proj_id].goalAmount, "Maximum amount reached");
-        // currentAmount = token.balanceOf( project[_proj_id].developer ) ;
-        // int256 rate = int256((project[_proj_id].goalAmount)/31536000);
-        int96 flowrate = 1000;
-        createFlowFromContract(project[_proj_id].developer, flowrate);
+        require (project[_proj_id].goalAmount > 0, "Maximum amount reached");
+        uint256 time_in_seconds = ((project[_proj_id].time)*30*24*3600);
+        int256 rate = int256((project[_proj_id].goalAmount) / time_in_seconds);  
+        int96 flowrate = int96(rate);
+        createFlowFromContract(project[_proj_id].developer,flowrate);
     }
 }
