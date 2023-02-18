@@ -7,44 +7,44 @@ import ERC20ABI from '../SmartContracts/ABIs/ERC20ABI';
 
 const Projects = () => {
 
-    const [approved, setApproved] = useState(false);
-    const [loading, setLoading] = useState(false);
+    // const [approved, setApproved] = useState(false);
+    // const [loading, setLoading] = useState(false);
 
-    const{address} = useAccount();
-    const account = address;
+    // const{address} = useAccount();
+    // const account = address;
 
     const{data:signer}=useSigner();
     const contract = new ethers.Contract('0x25bb1f110Ff3DF9Fe2ad8dBdD2fd4cB9a06183cF',FundABI,signer);
     const provider = useProvider();
-    const fDAIx = new ethers.Contract('0xF2d68898557cCb2Cf4C10c3Ef2B034b2a69DAD00',ERC20ABI,signer);
-    console.log(contract)
-    console.log(fDAIx)
-    const approveCoins = async() => {
-        await fDAIx.approve(contract.address,'10000000000000000000000000');
-        setApproved(true);
-    }
+    // const fDAIx = new ethers.Contract('0xF2d68898557cCb2Cf4C10c3Ef2B034b2a69DAD00',ERC20ABI,signer);
+    // console.log(contract)
+    // console.log(fDAIx)
+    // const approveCoins = async() => {
+    //     await fDAIx.approve(contract.address,'10000000000000000000000000');
+    //     setApproved(true);
+    // }
    
-    const checkApproval = async() => {
-        const amt = await fDAIx.allowance(account,contract)
-        if(amt > 0)
-        {
-            setApproved(true)
-        }
-        else
-        {
-            setApproved(false)
-        }
-    }
+    // const checkApproval = async() => {
+    //     const amt = await fDAIx.allowance(account,contract)
+    //     if(amt > 0)
+    //     {
+    //         setApproved(true)
+    //     }
+    //     else
+    //     {
+    //         setApproved(false)
+    //     }
+    // }
 
-    const funding = async() => {
-        setLoading(true)
-        await contract.funding('1');
-        setLoading(false)
-    }
+    // const funding = async() => {
+    //     setLoading(true)
+    //     await contract.funding('1');
+    //     setLoading(false)
+    // }
 
-    useEffect(() => {
-        checkApproval();
-    })
+    // useEffect(() => {
+    //     checkApproval();
+    // })
 
     const[lists,setList] = useState([]);
     const getlist = async() => {
@@ -83,12 +83,6 @@ const Projects = () => {
                             <label className='text-xl font-poppins text-blue1 font-semibold pt-[20px]'>Project Description : {list.proj_desc}</label>
                             <label className='text-xl font-poppins text-blue1 font-semibold pt-[20px]'>Target Amount : {(list.goalAmount).toString()}</label>
                             <label className='text-xl font-poppins text-blue1 font-semibold pt-[20px]'>Completion Time : {(list.time).toString()}</label>
-                            <div>
-                                {
-                                    approved ? <button onClick={funding} className='mt-[20px] bg-blue1 text-white1 py-[2px] rounded-md'>Fund</button> : <button onClick={approveCoins} className='mt-[20px] bg-blue1 text-white1 py-[2px] rounded-md'>Approve</button>
-                                }
-                            </div>
-
                             <Link to={`/project/${list.proj_id}`}>
                                 <button>View Project</button>
                             </Link>
