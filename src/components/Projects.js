@@ -35,18 +35,17 @@ const Projects = () => {
                 </div>
                 <button onClick={getlist} className='bg-white1 text-blue1 text-lg font-poppins border border-blue1 rounded-lg px-[20px] my-[5px] shadow-2xl hover:bg-blue1 hover:text-white1 mr-[80px]'>VIEW PROJECTS</button>
             </div>
-            <div>
+            <div className="grid gap-4 grid-cols-3 grid-rows-3 mt-[40px]">
             {
                 lists.map((list) => {
                     return(
-                    <div className='flex flex-col justify-center'>
-                        <div className='flex flex-row justify-center'>
-                            <div className='flex flex-col justify-center'>
-                                <label className='text-xl font-poppins text-blue1 font-semibold pt-[20px]'>Project Name : {list.proj_name}</label>
-                                <label className='text-xl font-poppins text-blue1 font-semibold pt-[20px]'>Project Description : {list.proj_desc}</label>
-                                <label className='text-xl font-poppins text-blue1 font-semibold pt-[20px]'>Project Amount : {(list.goalAmount).toString()}</label>
-                                <label className='text-xl font-poppins text-blue1 font-semibold pt-[20px]'>Completion Time : {(list.time).toString()}</label>
-                            </div>
+                    <div className='border border-blue1 rounded-2xl text-left bg-white1 shadow-xl'>
+                        <div className='flex flex-col justify-center p-5'>
+                            <label className='text-xl font-poppins text-blue1 font-semibold '>Project Name : {list.proj_name}</label>
+                            <label className='text-xl font-poppins text-blue1 font-semibold pt-[20px]'>Project Description : {list.proj_desc}</label>
+                            <label className='text-xl font-poppins text-blue1 font-semibold pt-[20px]'>Project Amount : {(list.goalAmount).toString()}</label>
+                            <label className='text-xl font-poppins text-blue1 font-semibold pt-[20px]'>Completion Time : {(list.time).toString()}</label>
+                            <button className='mt-[20px] bg-blue1 text-white1 py-[2px] rounded-md'>Fund</button>
                         </div>
                     </div>
 
