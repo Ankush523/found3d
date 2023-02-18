@@ -8,6 +8,7 @@ import { useProvider } from 'wagmi'
 
 const Grantee = () => {
 
+    const[lists,setList] = useState([]);
     const [projectname, setProjectName] = useState("");
     const [projectdesc, setProjectDesc] = useState("");
     const [goalamount, setGoalAmount] = useState(null);
@@ -18,7 +19,7 @@ const Grantee = () => {
     const{data:signer}=useSigner();
     const provider = useProvider()
 
-    const contract = new ethers.Contract('0xed1dBF14C63eBDeeb7Fc553528e889c0423B8df2',FundABI,signer);
+    const contract = new ethers.Contract('0x25bb1f110Ff3DF9Fe2ad8dBdD2fd4cB9a06183cF',FundABI,signer);
   
     const fundDetails=async()=>{
 
@@ -58,6 +59,13 @@ const Grantee = () => {
         }
     };
 
+    const getlist = async() => {
+        setList([]);
+        var list = await contract.pvtprojectlist();
+        console.log(list)
+        setList(list)
+    }
+
     return (
     <div>
         <div className='border-b border-b-grey1'>
@@ -85,9 +93,28 @@ const Grantee = () => {
 
             <div className='w-[65%] flex flex-col'>
                 <label className='text-3xl font-poppins text-blue1 font-semibold pt-[20px]'>Your Projects</label>
-                <div>
+                {/* <div>
                     {Number(ethers.utils.formatEther(daixbal)).toFixed(8)}
+                </div> */}
+                <div>
+                    <button onClick={getlist} className='mt-[30px] bg-blue1 font-poppins text-white1 shadow-2xl rounded-lg px-[20px] py-[10px]'>Get List</button>
                 </div>
+                <div className="grid gap-4 grid-cols-3 grid-rows-3 mt-[40px]">
+                {
+                    lists.map((list) => {
+                        return(
+                            <div className='border border-blue1 rounded-2xl text-left bg-white1 shadow-xl'>
+                                <div className='flex flex-col justify-center p-5'>
+                                    <label className='text-xl font-poppins text-blue1 font-semibold '>Project Name : {list.proj_name}</label>
+                                    <label className='text-xl font-poppins text-blue1 font-semibold pt-[20px]'>Project Description : {list.proj_desc}</label>
+                                    <label className='text-xl font-poppins text-blue1 font-semibold pt-[20px]'>Target Amount : {(list.goalAmount).toString()}</label>
+                                    <label className='text-xl font-poppins text-blue1 font-semibold pt-[20px]'>Completion Time : {(list.time).toString()}</label>
+                                </div>
+                            </div>
+                        )
+                    })
+                }  
+            </div>
             </div>
         </div>
     </div>

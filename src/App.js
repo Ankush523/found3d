@@ -6,6 +6,7 @@ import Grantee from "./pages/Grantee";
 import Donor from "./pages/Donor";
 import DonorIntro from "./components/DonorIntro";
 import Projects from "./components/Projects";
+import IndividualProject from "./components/IndividualProject";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/donor" element={<Donor />} />
           <Route path="/donorintro" element={<DonorIntro />} />
           <Route path="/projects" element={<Projects />} />
+          <Route path="/project/:id" element={<IndividualProject/>}/>
         </Routes>
       </BrowserRouter>
     </div>

@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { ethers } from 'ethers';
 import FundABI from "../SmartContracts/ABIs/FundABI.json";
 import { useAccount, useProvider, useSigner } from 'wagmi';
-import GetAccount from '../hooks/GetAccount';
+import { Link } from 'react-router-dom';
 import ERC20ABI from '../SmartContracts/ABIs/ERC20ABI';
+
 const Projects = () => {
 
     const [approved, setApproved] = useState(false);
@@ -13,7 +14,7 @@ const Projects = () => {
     const account = address;
 
     const{data:signer}=useSigner();
-    const contract = new ethers.Contract('0xed1dBF14C63eBDeeb7Fc553528e889c0423B8df2',FundABI,signer);
+    const contract = new ethers.Contract('0x25bb1f110Ff3DF9Fe2ad8dBdD2fd4cB9a06183cF',FundABI,signer);
     const provider = useProvider();
     const fDAIx = new ethers.Contract('0xF2d68898557cCb2Cf4C10c3Ef2B034b2a69DAD00',ERC20ABI,signer);
     console.log(contract)
@@ -47,9 +48,9 @@ const Projects = () => {
 
     const[lists,setList] = useState([]);
     const getlist = async() => {
-        var len = await contract.receiveProjectid();
-        console.log(len.toString())
-        var parseList = len.toString();
+        var proj_id = await contract.receiveProjectid();
+        console.log(proj_id.toString())
+        var parseList = proj_id.toString();
         setList([]);
         for(let i=1;i<=parseList;i++)
         {
@@ -59,6 +60,7 @@ const Projects = () => {
         }
     }
     console.log(lists)
+
 
     return (
         <div className='flex flex-col justify-center'>
@@ -75,7 +77,8 @@ const Projects = () => {
                 lists.map((list) => {
                     return(
                     <div className='border border-blue1 rounded-2xl text-left bg-white1 shadow-xl'>
-                        <div className='flex flex-col justify-center p-5'>
+                        <div className='flex flex-col justify-center p-5' key={list.proj_id}>
+                            <label className='text-xl font-poppins text-blue1 font-semibold pt-[20px]'>Project Id : {(list.proj_id).toString()}</label>
                             <label className='text-xl font-poppins text-blue1 font-semibold '>Project Name : {list.proj_name}</label>
                             <label className='text-xl font-poppins text-blue1 font-semibold pt-[20px]'>Project Description : {list.proj_desc}</label>
                             <label className='text-xl font-poppins text-blue1 font-semibold pt-[20px]'>Target Amount : {(list.goalAmount).toString()}</label>
@@ -85,6 +88,10 @@ const Projects = () => {
                                     approved ? <button onClick={funding} className='mt-[20px] bg-blue1 text-white1 py-[2px] rounded-md'>Fund</button> : <button onClick={approveCoins} className='mt-[20px] bg-blue1 text-white1 py-[2px] rounded-md'>Approve</button>
                                 }
                             </div>
+
+                            <Link to={`/project/${list.proj_id}`}>
+                                <button>View Project</button>
+                            </Link>
                         </div>
                     </div>
                     )
