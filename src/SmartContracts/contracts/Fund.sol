@@ -37,29 +37,31 @@ contract Fund {
         fundtoken = _fundtoken;
     }
 
-    function allowAccount(address _account) external {
-        if (msg.sender != owner) revert Unauthorized();
-        accountList[_account] = true;
-    }
+   
 
     function createFlowFromContract(address receiver,int96 flowRate) public {
-        if (!accountList[msg.sender] && msg.sender != owner) revert Unauthorized();
+        
         fundtoken.createFlow(receiver, flowRate);
     }
 
     function updateFlowFromContract(address receiver,int96 flowRate) internal {
-        if (!accountList[msg.sender] && msg.sender != owner) revert Unauthorized();
+        
         fundtoken.updateFlow(receiver, flowRate);
     }
 
     function deleteFlowFromContract(address receiver) external {
-        if (!accountList[msg.sender] && msg.sender != owner) revert Unauthorized();
+        
         fundtoken.deleteFlow(address(this), receiver);
     }
 
     function add(uint256 _proj_id) public view returns (address) {
         return project[_proj_id].developer;
     } 
+
+    function receiveProjectid() external view returns(uint) {
+        return proj_id;
+    }
+
     function projectregister(string memory _projname, string memory _projdesc,uint256 _goalAmount, uint256 _time) external{
         ++proj_id;
         project[proj_id] = Project(proj_id,_projname,_projdesc,msg.sender,_goalAmount,_time);

@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import DonorIntro from '../components/DonorIntro';
 import DonorNav from '../components/DonorNav'
 import Projects from '../components/Projects';
-
 const Donor = () => {
 
   const [selection, setSelection] = useState("1");

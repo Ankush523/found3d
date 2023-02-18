@@ -13,7 +13,7 @@ const Grantee = () => {
     const [goalamount, setGoalAmount] = useState(null);
     const [time, setTime] = useState(null);
 
-    const contract = new ethers.Contract('0x2051DF7e50982105F09b71925cE610E2645ED863',FundABI,signer);
+    const contract = new ethers.Contract('0xed1dBF14C63eBDeeb7Fc553528e889c0423B8df2',FundABI,signer);
   
     const projectdetails = async () => {
         if(projectname !== '' && projectdesc !== '' && goalamount !== null && time !== null){

@@ -1,14 +1,51 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ethers } from 'ethers';
 import FundABI from "../SmartContracts/ABIs/FundABI.json";
-import { useSigner } from 'wagmi';
+import { useAccount, useProvider, useSigner } from 'wagmi';
+import GetAccount from '../hooks/GetAccount';
+import ERC20ABI from '../SmartContracts/ABIs/ERC20ABI';
 const Projects = () => {
 
-    const{data:signer}=useSigner();
-    const contract = new ethers.Contract('0x2051DF7e50982105F09b71925cE610E2645ED863',FundABI,signer);
-    console.log(contract)
-    const[lists,setList] = useState([]);
+    const [approved, setApproved] = useState(false);
+    const [loading, setLoading] = useState(false);
 
+    const{address} = useAccount();
+    const account = address;
+
+    const{data:signer}=useSigner();
+    const contract = new ethers.Contract('0xed1dBF14C63eBDeeb7Fc553528e889c0423B8df2',FundABI,signer);
+    const provider = useProvider();
+    const fDAIx = new ethers.Contract('0xF2d68898557cCb2Cf4C10c3Ef2B034b2a69DAD00',ERC20ABI,signer);
+    console.log(contract)
+    console.log(fDAIx)
+    const approveCoins = async() => {
+        await fDAIx.approve(contract.address,'10000000000000000000000000');
+        setApproved(true);
+    }
+   
+    const checkApproval = async() => {
+        const amt = await fDAIx.allowance(account,contract)
+        if(amt > 0)
+        {
+            setApproved(true)
+        }
+        else
+        {
+            setApproved(false)
+        }
+    }
+
+    const funding = async() => {
+        setLoading(true)
+        await contract.funding('1');
+        setLoading(false)
+    }
+
+    useEffect(() => {
+        checkApproval();
+    })
+
+    const[lists,setList] = useState([]);
     const getlist = async() => {
         var len = await contract.receiveProjectid();
         console.log(len.toString())
@@ -21,8 +58,6 @@ const Projects = () => {
             setList((lists) => [...lists,list])
         }
     }
-    
-
     console.log(lists)
 
     return (
@@ -45,10 +80,13 @@ const Projects = () => {
                             <label className='text-xl font-poppins text-blue1 font-semibold pt-[20px]'>Project Description : {list.proj_desc}</label>
                             <label className='text-xl font-poppins text-blue1 font-semibold pt-[20px]'>Project Amount : {(list.goalAmount).toString()}</label>
                             <label className='text-xl font-poppins text-blue1 font-semibold pt-[20px]'>Completion Time : {(list.time).toString()}</label>
-                            <button className='mt-[20px] bg-blue1 text-white1 py-[2px] rounded-md'>Fund</button>
+                            <div>
+                                {
+                                    approved ? <button onClick={funding} className='mt-[20px] bg-blue1 text-white1 py-[2px] rounded-md'>Fund</button> : <button onClick={approveCoins} className='mt-[20px] bg-blue1 text-white1 py-[2px] rounded-md'>Approve</button>
+                                }
+                            </div>
                         </div>
                     </div>
-
                     )
                 })
             }  

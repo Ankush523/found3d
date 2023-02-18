@@ -3,19 +3,6 @@
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "_account",
-				"type": "address"
-			}
-		],
-		"name": "allowAccount",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
 				"name": "receiver",
 				"type": "address"
 			},
@@ -99,11 +86,6 @@
 		],
 		"stateMutability": "nonpayable",
 		"type": "constructor"
-	},
-	{
-		"inputs": [],
-		"name": "Unauthorized",
-		"type": "error"
 	},
 	{
 		"inputs": [
