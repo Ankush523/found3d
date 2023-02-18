@@ -2,7 +2,7 @@ import React from 'react'
 
 const DonorIntro = () => {
     return (
-        <div className='flex flex-col'>
+        <div className='flex flex-col  mt-[80px]'>
                
             <label className='font-poppins text-2xl text-blue1 font-medium mb-[50px]'>Connect to fund3d</label>
     
