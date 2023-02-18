@@ -127,19 +127,6 @@
 	},
 	{
 		"inputs": [],
-		"name": "currentAmount",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
 		"name": "fundtoken",
 		"outputs": [
 			{
@@ -171,50 +158,6 @@
 			{
 				"internalType": "uint256",
 				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "project",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "proj_id",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "proj_name",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "proj_desc",
-				"type": "string"
-			},
-			{
-				"internalType": "address",
-				"name": "developer",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "goalAmount",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "time",
 				"type": "uint256"
 			}
 		],
@@ -267,6 +210,95 @@
 				"internalType": "struct Fund.Project",
 				"name": "",
 				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "projects",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "proj_id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "proj_name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "proj_desc",
+				"type": "string"
+			},
+			{
+				"internalType": "address",
+				"name": "developer",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "goalAmount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "time",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "pvtprojectlist",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "proj_id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "proj_name",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "proj_desc",
+						"type": "string"
+					},
+					{
+						"internalType": "address",
+						"name": "developer",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "goalAmount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "time",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct Fund.Project[]",
+				"name": "",
+				"type": "tuple[]"
 			}
 		],
 		"stateMutability": "view",
