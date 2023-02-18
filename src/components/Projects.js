@@ -78,7 +78,7 @@ const Projects = () => {
                         <div className='flex flex-col justify-center p-5'>
                             <label className='text-xl font-poppins text-blue1 font-semibold '>Project Name : {list.proj_name}</label>
                             <label className='text-xl font-poppins text-blue1 font-semibold pt-[20px]'>Project Description : {list.proj_desc}</label>
-                            <label className='text-xl font-poppins text-blue1 font-semibold pt-[20px]'>Project Amount : {(list.goalAmount).toString()}</label>
+                            <label className='text-xl font-poppins text-blue1 font-semibold pt-[20px]'>Target Amount : {(list.goalAmount).toString()}</label>
                             <label className='text-xl font-poppins text-blue1 font-semibold pt-[20px]'>Completion Time : {(list.time).toString()}</label>
                             <div>
                                 {

@@ -3,18 +3,52 @@ import GranteeNav from '../components/GranteeNav'
 import { ethers } from 'ethers';
 import FundABI from "../SmartContracts/ABIs/FundABI.json";
 import { useSigner } from 'wagmi';
+import GetSF from '../hooks/GetSF';
+import { useProvider } from 'wagmi'
 
 const Grantee = () => {
-
-    const{data:signer}=useSigner();
 
     const [projectname, setProjectName] = useState("");
     const [projectdesc, setProjectDesc] = useState("");
     const [goalamount, setGoalAmount] = useState(null);
     const [time, setTime] = useState(null);
 
+    const [daixbal, setDaixbal] = useState(null);           
+    
+    const{data:signer}=useSigner();
+    const provider = useProvider()
+
     const contract = new ethers.Contract('0xed1dBF14C63eBDeeb7Fc553528e889c0423B8df2',FundABI,signer);
   
+    const fundDetails=async()=>{
+
+        console.log("fundDetails");
+
+        const sf = await GetSF();
+        console.log(sf);
+
+        const fdaix = await sf.loadSuperToken('0xF2d68898557cCb2Cf4C10c3Ef2B034b2a69DAD00');
+        console.log(fdaix);
+
+        const realtimebal = await fdaix.realtimeBalanceOf({
+            account: '0x1e87f3F4FDBb276250fC064a3cf0069592280601',
+            timestamp: Date.now(),
+            providerOrSigner: signer || provider,
+          });
+
+        console.log(realtimebal.availableBalance);
+        
+        setDaixbal(realtimebal.availableBalance);
+        console.log(ethers.utils.formatEther(daixbal));
+
+        setTimeout(fundDetails, 5000);
+
+    }
+
+    fundDetails();
+
+
+
     const projectdetails = async () => {
         if(projectname !== '' && projectdesc !== '' && goalamount !== null && time !== null){
             console.log(contract);
@@ -51,6 +85,9 @@ const Grantee = () => {
 
             <div className='w-[65%] flex flex-col'>
                 <label className='text-3xl font-poppins text-blue1 font-semibold pt-[20px]'>Your Projects</label>
+                <div>
+                    {Number(ethers.utils.formatEther(daixbal)).toFixed(8)}
+                </div>
             </div>
         </div>
     </div>
