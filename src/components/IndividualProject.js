@@ -68,8 +68,6 @@ const IndividualProject = () => {
                 <div className='flex flex-col justify-center p-5'>
                     <label className='text-xl font-poppins text-blue1 font-semibold '>Project Name : {lists.proj_name}</label>
                     <label className='text-xl font-poppins text-blue1 font-semibold pt-[20px]'>Project Description : {lists.proj_desc}</label>
-                    <label className='text-xl font-poppins text-blue1 font-semibold pt-[20px]'>Target Amount : {(lists.goalAmount).toString()}</label>
-                    <label className='text-xl font-poppins text-blue1 font-semibold pt-[20px]'>Completion Time : {(lists.time).toString()}</label>
                     <div>
                     {
                         // approved ? <button onClick={funding} className='mt-[20px] bg-blue1 text-white1 py-[2px] rounded-md'>Fund</button> : <button onClick={approveCoins} className='mt-[20px] bg-blue1 text-white1 py-[2px] rounded-md'>Approve</button>
