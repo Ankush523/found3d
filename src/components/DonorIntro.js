@@ -10,13 +10,13 @@ const DonorIntro = () => {
                 <a href='/projects'>
                     <div className='rounded-2xl bg-white1 shadow-xl pt-[40px] w-[275px] h-[150px]'>
                         <label className='font-poppins text-md text-black1'>View Stunning Projects</label>
-                        <p className='font-poppins text-grey2 text-xs pt-[10px]'>Borow any stablecoin at fixed rates against your NFTs</p>
+                        <p className='font-poppins text-grey2 text-xs pt-[10px]'>View all the amazing projects made by developers all around the globe</p>
                     </div>
                 </a>
                 <a href='/projects'>
                     <div className='rounded-2xl bg-white1 shadow-xl pt-[40px] w-[275px] h-[150px]'>
                         <label className='font-poppins text-md text-black1'>Fund Projects</label>
-                        <p className='font-poppins text-grey2 text-xs pt-[10px]'>Borow any stablecoin at fixed rates against your NFTs</p>
+                        <p className='font-poppins text-grey2 text-xs pt-[10px]'>Provide funds/grants to your favourite projects</p>
                     </div>
                 </a>
             </div>
