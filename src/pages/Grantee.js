@@ -22,6 +22,10 @@ const Grantee = () => {
                     <label className='text-sm font-poppins pt-[20px]'>Current Progress : </label>
                     <input className='bg-white1 border border-blue1 rounded-md h-[50px]'/>
                 </div>
+
+                <div className='mr-[80px]'>
+                    <button className='mt-[30px] bg-blue1 font-poppins text-white1 shadow-2xl rounded-lg px-[20px] py-[10px]'>Submit</button>
+                </div>
             </div>
 
             <div className='w-[65%] flex flex-col'>
