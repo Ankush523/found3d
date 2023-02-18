@@ -25,8 +25,8 @@ contract Fund {
         string proj_name;
         string proj_desc;
         address developer;
-        uint256 time;
         uint256 goalAmount;
+        uint256 time;
     }
 
     mapping(uint => Project) public project;
@@ -60,9 +60,9 @@ contract Fund {
     function add(uint256 _proj_id) public view returns (address) {
         return project[_proj_id].developer;
     } 
-    function projectregister(string memory _projname, string memory _projdesc,uint256 _time, uint256 _goalAmount) external{
+    function projectregister(string memory _projname, string memory _projdesc,uint256 _goalAmount, uint256 _time) external{
         ++proj_id;
-        project[proj_id] = Project(proj_id,_projname,_projdesc,msg.sender,_time,_goalAmount);
+        project[proj_id] = Project(proj_id,_projname,_projdesc,msg.sender,_goalAmount,_time);
     }
 
     function projectlist(uint _proj_id) public view returns (Project memory)
@@ -77,7 +77,7 @@ contract Fund {
     } 
 
     function funding(uint256 _proj_id) external {
-        require (project[_proj_id].goalAmount > 0, "Maximum amount reached");
+        require (project[_proj_id].goalAmount > 0, "Amount must be greater than 0");
         uint256 time_in_seconds = ((project[_proj_id].time)*30*24*3600);
         int256 rate = int256((project[_proj_id].goalAmount) / time_in_seconds);  
         int96 flowrate = int96(rate);
