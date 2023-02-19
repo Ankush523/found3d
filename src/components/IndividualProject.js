@@ -5,6 +5,7 @@ import { ethers } from 'ethers';
 import FundABI from "../SmartContracts/ABIs/FundABI.json";
 import { useAccount, useProvider, useSigner } from 'wagmi';
 import ERC20ABI from '../SmartContracts/ABIs/ERC20ABI';
+import { Player } from '@livepeer/react';
 
 const IndividualProject = () => {
     
@@ -64,14 +65,21 @@ const IndividualProject = () => {
             <div>
                 <button onClick={getlist} className='mt-[30px] bg-blue1 font-poppins text-white1 shadow-2xl rounded-lg px-[20px] py-[10px]'>Get List</button>
             </div>
-            <div className='border border-black1'>
+            <div className='flex flex-row'>
+                <div className='w-[50%]'>
+                    <Player
+                    title={lists.proj_name}
+                    playbackId="e9c950mbxjsmgtpp"
+                    showTitle={false}
+                    showPipButton
+                    aspectRatio="16to9"
+                    />
+                </div>
                 <div className='flex flex-col justify-center p-5'>
                     <label className='text-xl font-poppins text-blue1 font-semibold '>Project Name : {lists.proj_name}</label>
                     <label className='text-xl font-poppins text-blue1 font-semibold pt-[20px]'>Project Description : {lists.proj_desc}</label>
                     <div>
-                    {
-                        // approved ? <button onClick={funding} className='mt-[20px] bg-blue1 text-white1 py-[2px] rounded-md'>Fund</button> : <button onClick={approveCoins} className='mt-[20px] bg-blue1 text-white1 py-[2px] rounded-md'>Approve</button>
-                        
+                    {                        
                         approved ? <button onClick={funding} className='mt-[20px] bg-blue1 font-poppins text-white1 shadow-2xl rounded-lg px-[20px] py-[10px]'>Fund</button> : <button onClick={approveCoins} className='mt-[20px] bg-blue1 font-poppins text-white1 shadow-2xl rounded-lg px-[20px] py-[10px]'>Approve</button>
                     }
                     </div>

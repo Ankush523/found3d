@@ -14,7 +14,7 @@ const Projects = () => {
     // const account = address;
 
     const{data:signer}=useSigner();
-    const contract = new ethers.Contract('0x25bb1f110Ff3DF9Fe2ad8dBdD2fd4cB9a06183cF',FundABI,signer);
+    const contract = new ethers.Contract('0xA4dfB39f189cA80571dE823BE77eBc76eBf4c752',FundABI,signer);
     const provider = useProvider();
     // const fDAIx = new ethers.Contract('0xF2d68898557cCb2Cf4C10c3Ef2B034b2a69DAD00',ERC20ABI,signer);
     // console.log(contract)
