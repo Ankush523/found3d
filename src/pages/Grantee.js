@@ -19,7 +19,7 @@ const Grantee = () => {
 
     const{data:signer}=useSigner();
     const provider = useProvider()
-    const contract = new ethers.Contract('0xA4dfB39f189cA80571dE823BE77eBc76eBf4c752',FundABI,signer);
+    const contract = new ethers.Contract('0xBEd8bbDFcFed5e59b3f06295175587bc35cCf138',FundABI,signer);
   
     const fundDetails=async()=>{
 
@@ -136,18 +136,21 @@ const Grantee = () => {
                 <div className="grid gap-4 grid-cols-3 grid-rows-3 mt-[40px]">
                 {
                     lists.map((list) => {
-                        return(
-                            <div className='border border-blue1 rounded-2xl text-left bg-white1 shadow-xl'>
-                                <div className='flex flex-col justify-center p-5'>
-                                    <label className='text-3xl font-poppins text-blue1 font-semibold '>{list.proj_name}</label>
-                                    <label className='text-md font-poppins text-blue1 font-semibold pt-[20px]'>Desc : {list.proj_desc}</label>
-                                    <div className='flex flex-row justify-between'>
-                                        <label className='text-sm font-poppins text-blue1 font-semibold pt-[20px]'>Target Amount : {(list.goalAmount).toString()}</label>
-                                        <label className='text-sm font-poppins text-blue1 font-semibold pt-[20px]'>Completion Time : {(list.time).toString()}</label>
+                        if(list.proj_name !== '')
+                        {
+                            return(
+                                <div className='border border-blue1 rounded-2xl text-left bg-white1 shadow-xl'>
+                                    <div className='flex flex-col justify-center p-5'>
+                                        <label className='text-3xl font-poppins text-blue1 font-semibold '>{list.proj_name}</label>
+                                        <label className='text-md font-poppins text-blue1 font-semibold pt-[20px]'>Desc : {list.proj_desc}</label>
+                                        <div className='flex flex-row justify-between'>
+                                            <label className='text-sm font-poppins text-blue1 font-semibold pt-[20px]'>Goal : {(list.goalAmount).toString()} fDAIx</label>
+                                            <label className='text-sm font-poppins text-blue1 font-semibold pt-[20px]'>Time : {(list.time).toString()} months</label>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        )
+                            )       
+                        }
                     })
                 }  
             </div>

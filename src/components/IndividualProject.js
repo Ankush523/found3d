@@ -18,7 +18,7 @@ const IndividualProject = () => {
 
     const{data:signer}=useSigner()
     const provider = useProvider()
-    const contract = new ethers.Contract('0x25bb1f110Ff3DF9Fe2ad8dBdD2fd4cB9a06183cF',FundABI,signer);
+    const contract = new ethers.Contract('0xBEd8bbDFcFed5e59b3f06295175587bc35cCf138',FundABI,signer);
     const fDAIx = new ethers.Contract('0xF2d68898557cCb2Cf4C10c3Ef2B034b2a69DAD00',ERC20ABI,signer);
     console.log(contract)
     console.log(fDAIx)
@@ -61,12 +61,15 @@ const IndividualProject = () => {
     console.log(lists)
     return (
     <div>
-        <div className='flex flex-col justify-center p-5'>
-            <div>
-                <button onClick={getlist} className='mt-[30px] bg-blue1 font-poppins text-white1 shadow-2xl rounded-lg px-[20px] py-[10px]'>Get List</button>
+        <div className='flex flex-col justify-center mx-[40px]'>
+            <div className='flex flex-row justify-between mt-[20px] mb-[40px]'>
+                <label className='text-5xl font-poppins text-blue1'>Project Details</label>
+                <div>
+                    <button onClick={getlist} className='w-full bg-blue1 font-poppins text-white1 shadow-2xl rounded-lg px-[20px] py-[10px] '>Get Project Details</button>
+                </div>
             </div>
-            <div className='flex flex-row'>
-                <div className='w-[50%]'>
+            <div className='flex flex-row gap-5'>
+                <div className='w-[40%]'>
                     <Player
                     title={lists.proj_name}
                     playbackId="e9c950mbxjsmgtpp"
@@ -75,15 +78,15 @@ const IndividualProject = () => {
                     aspectRatio="16to9"
                     />
                 </div>
-                <div className='flex flex-col justify-center p-5'>
-                    <label className='text-xl font-poppins text-blue1 font-semibold '>Project Name : {lists.proj_name}</label>
-                    <label className='text-xl font-poppins text-blue1 font-semibold pt-[20px]'>Project Description : {lists.proj_desc}</label>
-                    <div>
-                    {                        
-                        approved ? <button onClick={funding} className='mt-[20px] bg-blue1 font-poppins text-white1 shadow-2xl rounded-lg px-[20px] py-[10px]'>Fund</button> : <button onClick={approveCoins} className='mt-[20px] bg-blue1 font-poppins text-white1 shadow-2xl rounded-lg px-[20px] py-[10px]'>Approve</button>
-                    }
-                    </div>
+                <div className='flex flex-col border border-blue1 rounded-2xl w-[50%] p-[30px] text-left '>
+                    <label className='text-5xl font-poppins text-blue1 font-semibold '>{lists.proj_name}</label>
+                    <label className='text-xl font-poppins text-blue1 font-semibold pt-[20px]'>{lists.proj_desc}</label>
                 </div>
+            </div>
+            <div>
+            {                        
+                approved ? <button onClick={funding} className='mt-[40px] bg-blue1 font-poppins text-white1 shadow-2xl rounded-lg px-[50px] py-[10px]'>Fund</button> : <button onClick={approveCoins} className='mt-[40px] bg-blue1 font-poppins text-white1 shadow-2xl rounded-lg px-[50px] py-[10px]'>Approve and Fund </button>
+            }
             </div>
         </div>
     </div>
