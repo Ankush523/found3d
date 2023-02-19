@@ -7,44 +7,44 @@ import ERC20ABI from '../SmartContracts/ABIs/ERC20ABI';
 
 const Projects = () => {
 
-    // const [approved, setApproved] = useState(false);
-    // const [loading, setLoading] = useState(false);
+    const [approved, setApproved] = useState(false);
+    const [loading, setLoading] = useState(false);
 
-    // const{address} = useAccount();
-    // const account = address;
+    const{address} = useAccount();
+    const account = address;
 
     const{data:signer}=useSigner();
-    const contract = new ethers.Contract('0xBEd8bbDFcFed5e59b3f06295175587bc35cCf138',FundABI,signer);
+    const contract = new ethers.Contract('0x61ECE1290C3168766062f2BB119906bC92878281',FundABI,signer);
     const provider = useProvider();
-    // const fDAIx = new ethers.Contract('0xF2d68898557cCb2Cf4C10c3Ef2B034b2a69DAD00',ERC20ABI,signer);
-    // console.log(contract)
-    // console.log(fDAIx)
-    // const approveCoins = async() => {
-    //     await fDAIx.approve(contract.address,'10000000000000000000000000');
-    //     setApproved(true);
-    // }
+    const fDAIx = new ethers.Contract('0xF2d68898557cCb2Cf4C10c3Ef2B034b2a69DAD00',ERC20ABI,signer);
+    console.log(contract)
+    console.log(fDAIx)
+    const approveCoins = async() => {
+        await fDAIx.approve(contract.address,'10000000000000000000000000');
+        setApproved(true);
+    }
    
-    // const checkApproval = async() => {
-    //     const amt = await fDAIx.allowance(account,contract)
-    //     if(amt > 0)
-    //     {
-    //         setApproved(true)
-    //     }
-    //     else
-    //     {
-    //         setApproved(false)
-    //     }
-    // }
+    const checkApproval = async() => {
+        const amt = await fDAIx.allowance(account,contract)
+        if(amt > 0)
+        {
+            setApproved(true)
+        }
+        else
+        {
+            setApproved(false)
+        }
+    }
 
-    // const funding = async() => {
-    //     setLoading(true)
-    //     await contract.funding('1');
-    //     setLoading(false)
-    // }
+    const funding = async() => {
+        setLoading(true)
+        await contract.funding('0');
+        setLoading(false)
+    }
 
-    // useEffect(() => {
-    //     checkApproval();
-    // })
+    useEffect(() => {
+        checkApproval();
+    })
 
     const[lists,setList] = useState([]);
     const getlist = async() => {

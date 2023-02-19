@@ -8,7 +8,7 @@ const GetContract = () => {
     const{data:signer}=useSigner();
 
     const contract = useContract({
-        addressOrName: '0xc8E786715A03dc989ee8246663c30298976309b3',
+        addressOrName: '0x84e628DE10ed5e077D6b0aC613661B2E73ab84f6',
         contractInterface: FundABI,
         signerOrProvider: signer,
       })

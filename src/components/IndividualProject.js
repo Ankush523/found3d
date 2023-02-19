@@ -20,7 +20,7 @@ const IndividualProject = () => {
 
     const{data:signer}=useSigner()
     const provider = useProvider()
-    const contract = new ethers.Contract('0xBEd8bbDFcFed5e59b3f06295175587bc35cCf138',FundABI,signer);
+    const contract = new ethers.Contract('0x61ECE1290C3168766062f2BB119906bC92878281',FundABI,signer);
     const fDAIx = new ethers.Contract('0xF2d68898557cCb2Cf4C10c3Ef2B034b2a69DAD00',ERC20ABI,signer);
     console.log(contract)
     console.log(fDAIx)
@@ -70,7 +70,7 @@ const IndividualProject = () => {
 
     const funding = async() => {
         setLoading(true)
-        await contract.funding(id.toString());
+        await contract.funding('0');
         setLoading(false)
         await sendnotifs();
     }
@@ -87,6 +87,7 @@ const IndividualProject = () => {
         console.log(list)
         setList(list)
     }
+    console.log(id)
     console.log(lists)
     return (
     <div>
@@ -101,13 +102,14 @@ const IndividualProject = () => {
                 <div className='w-[40%]'>
                     <Player
                     title={lists.proj_name}
-                    playbackId="e9c950mbxjsmgtpp"
+                    playbackId="820a615a9mxv30xo"
                     showTitle={false}
                     showPipButton
                     aspectRatio="16to9"
                     />
                 </div>
                 <div className='flex flex-col border border-blue1 rounded-2xl w-[50%] p-[30px] text-left '>
+                    {/* <label className='text-3xl font-poppins text-blue1 font-semibold '>{(lists.proj_id).toString()}</label> */}
                     <label className='text-5xl font-poppins text-blue1 font-semibold '>{lists.proj_name}</label>
                     <label className='text-xl font-poppins text-blue1 font-semibold pt-[20px]'>{lists.proj_desc}</label>
                 </div>

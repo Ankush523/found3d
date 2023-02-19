@@ -27,7 +27,7 @@ const Grantee = () => {
     
     const{data:signer}=useSigner();
     const provider = useProvider()
-    const contract = new ethers.Contract('0xBEd8bbDFcFed5e59b3f06295175587bc35cCf138',FundABI,signer);
+    const contract = new ethers.Contract('0x61ECE1290C3168766062f2BB119906bC92878281',FundABI,signer);
     
     console.log(addr.address)
 

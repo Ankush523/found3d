@@ -10,7 +10,7 @@ error Unauthorized();
 contract Fund {
 
     address public owner;
-    uint256 public proj_id;
+    uint256 public proj_id = 0;
     using SuperTokenV1Library for ISuperToken;
 
     ISuperToken public fundtoken;
@@ -76,8 +76,11 @@ contract Fund {
         Project[] memory id = new Project[](proj_id);
         for(uint256 i=0; i < proj_id; i++)
         {
-            Project storage project = projects[i];
-            id[i] = project;
+            if(projects[i].developer == msg.sender)
+            {
+                Project storage project = projects[i];
+                id[i] = project;
+            }
         }
         return id;
     }
