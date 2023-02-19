@@ -6,6 +6,8 @@ import FundABI from "../SmartContracts/ABIs/FundABI.json";
 import { useAccount, useProvider, useSigner } from 'wagmi';
 import ERC20ABI from '../SmartContracts/ABIs/ERC20ABI';
 import { Player } from '@livepeer/react';
+import * as PushAPI from "@pushprotocol/restapi";
+
 
 const IndividualProject = () => {
     
@@ -22,6 +24,32 @@ const IndividualProject = () => {
     const fDAIx = new ethers.Contract('0xF2d68898557cCb2Cf4C10c3Ef2B034b2a69DAD00',ERC20ABI,signer);
     console.log(contract)
     console.log(fDAIx)
+
+    const PK = '30795dd9cb041f09a52bc664a51dde47ec87341eee57d6cb527c3b778fc0d37f'; // channel private key
+    const Pkey = `0x${PK}`;
+    const pushsigner = new ethers.Wallet(Pkey);
+
+    const sendnotifs = async()=>{
+        const apiResponse = await PushAPI.payloads.sendNotification({
+            pushsigner,
+            type: 3, // target
+            identityType: 2, // direct payload
+            notification: {
+              title: `Funding Started`,
+              body: `Youve started funding to a project`
+            },
+            payload: {
+            title: `Funding started`,
+            body: `Youve started funding to a project`,
+              cta: '',
+              img: ''
+            },
+            recipients: `eip155:5:${account}`, // recipient address
+            channel: 'eip155:5:0x1e87f3F4FDBb276250fC064a3cf0069592280601', // your channel address
+            env: 'staging'
+          });
+          console.log(apiResponse);
+    }
 
    const approveCoins = async() => {
         await fDAIx.approve(contract.address,'10000000000000000000000000');
@@ -44,6 +72,7 @@ const IndividualProject = () => {
         setLoading(true)
         await contract.funding(id.toString());
         setLoading(false)
+        await sendnotifs();
     }
 
     useEffect(() => {

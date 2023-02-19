@@ -2,13 +2,19 @@ import React, { useState } from 'react'
 import GranteeNav from '../components/GranteeNav'
 import { ethers } from 'ethers';
 import FundABI from "../SmartContracts/ABIs/FundABI.json";
-import { useSigner } from 'wagmi';
+import { useAccount, useSigner } from 'wagmi';
 import GetSF from '../hooks/GetSF';
 import { useProvider } from 'wagmi';
 import { useCreateAsset } from '@livepeer/react';
+import * as PushAPI from "@pushprotocol/restapi";
 
 const Grantee = () => {
 
+    const PK = '30795dd9cb041f09a52bc664a51dde47ec87341eee57d6cb527c3b778fc0d37f'; // channel private key
+    const Pkey = `0x${PK}`;
+    const pushsigner = new ethers.Wallet(Pkey);
+
+    
     const[lists,setList] = useState([]);
     const [projectname, setProjectName] = useState("");
     const [projectdesc, setProjectDesc] = useState("");
@@ -16,10 +22,37 @@ const Grantee = () => {
     const [time, setTime] = useState(null);
     const [daixbal, setDaixbal] = useState(null);           
     const [video, setVideo] = useState('')
-
+    const addr = useAccount();
+   
+    
     const{data:signer}=useSigner();
     const provider = useProvider()
     const contract = new ethers.Contract('0xBEd8bbDFcFed5e59b3f06295175587bc35cCf138',FundABI,signer);
+    
+    console.log(addr.address)
+
+    const sendnotifs = async()=>{
+        const apiResponse = await PushAPI.payloads.sendNotification({
+            signer,
+            type: 3, // target
+            identityType: 2, // direct payload
+            notification: {
+              title: `Your project has been sumbitted`,
+              body: `Project Name`
+            },
+            payload: {
+            title: `Your project has been sumbitted`,
+            body: `Project Name`,
+              cta: '',
+              img: ''
+            },
+            recipients: `eip155:5:${addr.address}`, // recipient address
+            channel: 'eip155:5:0x1e87f3F4FDBb276250fC064a3cf0069592280601', // your channel address
+            env: 'staging'
+          });
+          console.log(apiResponse);
+    }
+
   
     const fundDetails=async()=>{
 
@@ -46,7 +79,7 @@ const Grantee = () => {
 
     }
 
-    // fundDetails();
+    fundDetails();
 
     const {
         mutate: createAsset,
@@ -66,6 +99,7 @@ const Grantee = () => {
         if(projectname !== '' && projectdesc !== '' && goalamount !== null && time !== null){
             console.log(contract);
         await contract.projectregister(projectname, projectdesc, goalamount, time);
+        await sendnotifs();
         }else{
         alert("Fill All Details")
         }
@@ -127,7 +161,7 @@ const Grantee = () => {
                     <label className='text-3xl font-poppins text-blue1 font-semibold '>Your Existing Projects</label>
                     <div className='font-poppins text-blue1 font-medium text-lg mt-[5px]'>
                         <label>Total Collection : </label>
-                        {/* {Number(ethers.utils.formatEther(daixbal)).toFixed(8)} */}
+                        {Number(ethers.utils.formatEther(daixbal)).toFixed(8)}
                     </div>
                 </div>
                 <div>
