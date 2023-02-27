@@ -87,14 +87,14 @@ contract Fund {
 
     function ratevalue(uint256 _proj_id) public view returns (uint256) {
         uint256 time_in_seconds = ((projects[_proj_id].time)*30*24*3600);
-        uint256 rate = uint256((projects[_proj_id].goalAmount) / time_in_seconds);  
+        uint256 rate = uint256(((projects[_proj_id].goalAmount) * 1e18)/ time_in_seconds);  
         return rate;
     } 
 
     function funding(uint256 _proj_id) external {
         require (projects[_proj_id].goalAmount > 0, "Amount must be greater than 0");
         uint256 time_in_seconds = ((projects[_proj_id].time)*30*24*3600);
-        int256 rate = int256((projects[_proj_id].goalAmount) / time_in_seconds);  
+        int256 rate = int256(((projects[_proj_id].goalAmount) * 1e18)/ time_in_seconds);
         int96 flowrate = int96(rate);
         createFlowFromContract(projects[_proj_id].developer,flowrate);
     }
